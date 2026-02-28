@@ -15,7 +15,7 @@ import java.math.BigDecimal;
 @Repository
 public interface AccountRepository extends CrudRepository<Account, String> {
 
-    @Modifying
+    @Modifying(clearAutomatically = true) // Important: Clears stale cache after bulk update
     @Transactional
     @Query(value = "UPDATE accounts SET balance = balance + (balance * :rate) WHERE status = 'OVERDUE'", nativeQuery = true)
     int bulkUpdateInterest(@Param("rate") BigDecimal rate);

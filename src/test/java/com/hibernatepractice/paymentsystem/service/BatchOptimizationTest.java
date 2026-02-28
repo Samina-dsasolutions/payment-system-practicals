@@ -11,6 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.math.BigDecimal;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @SpringBootTest
 @Transactional
@@ -33,8 +34,9 @@ class BatchOptimizationTest {
 
         assertEquals(2, updatedCount);
 
-        // Verify one balance: 100 + (100 * 0.05) = 105.00
+        // Fix: Use compareTo == 0 to ignore scale differences
         BigDecimal newBalance = repository.findById("ACC001").get().getBalance();
-        assertEquals(0, new BigDecimal("105.00").compareTo(newBalance));
+        assertTrue(new BigDecimal("105.00").compareTo(newBalance) == 0,
+                "Expected 105.00 but found " + newBalance);
     }
 }
