@@ -28,6 +28,7 @@ public class OverdueAccountRepositoryTest {
 
     @Test
     public void testSaveAndRetrieveAccount() {
+        // Explicitly set the accountId since it is the primary key and NOT auto-incremented
         OverdueAccount account = new OverdueAccount(101L, new BigDecimal("1000.00"), BigDecimal.ZERO);
         repository.save(account);
 
