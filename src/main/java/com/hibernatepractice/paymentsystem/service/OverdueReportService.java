@@ -1,4 +1,4 @@
 package com.hibernatepractice.paymentsystem.service;
 
-public class PaymentIntegrationService {
+public class OverdueReportService {
 }
