@@ -6,11 +6,21 @@ import com.hibernatepractice.paymentsystem.model.OverdueAccount;
 import com.hibernatepractice.paymentsystem.repository.OverdueAccountRepository;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
-import java.math.BigDecimal;
-import static org.junit.jupiter.api.Assertions.*;
+import org.springframework.test.context.TestPropertySource;
 
-@DataJpaTest // Focuses only on JPA components
+import java.math.BigDecimal;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+
+@DataJpaTest
+@AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
+@TestPropertySource(properties = {
+        "spring.flyway.enabled=false",
+        "spring.jpa.hibernate.ddl-auto=update"
+})
 public class OverdueAccountRepositoryTest {
 
     @Autowired
@@ -23,6 +33,6 @@ public class OverdueAccountRepositoryTest {
 
         OverdueAccount retrieved = repository.findById(101L).orElse(null);
         assertNotNull(retrieved);
-        assertEquals(new BigDecimal("1000.00"), retrieved.getPrincipalAmount());
+        assertEquals(0, new BigDecimal("1000.00").compareTo(retrieved.getPrincipalAmount()));
     }
 }
