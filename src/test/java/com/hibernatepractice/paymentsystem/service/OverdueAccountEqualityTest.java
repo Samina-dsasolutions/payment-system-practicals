@@ -7,6 +7,13 @@ import org.junit.jupiter.api.Test;
 import java.math.BigDecimal;
 import static org.junit.jupiter.api.Assertions.*;
 
+
+
+import com.hibernatepractice.paymentsystem.model.OverdueAccount;
+import org.junit.jupiter.api.Test;
+import java.math.BigDecimal;
+import static org.junit.jupiter.api.Assertions.*;
+
 class OverdueAccountEqualityTest {
 
     @Test
