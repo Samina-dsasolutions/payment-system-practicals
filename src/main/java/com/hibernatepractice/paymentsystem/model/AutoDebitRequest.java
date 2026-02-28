@@ -7,6 +7,7 @@ import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 
 @Data // Use Lombok to handle Boilerplate, as suggested for Spring-based APIs
+
 public class AutoDebitRequest {
 
     @NotNull(message = "Account ID is mandatory")
