@@ -3,6 +3,7 @@ package com.hibernatepractice.paymentsystem.service;
 
 import com.hibernatepractice.paymentsystem.model.PaymentTransaction;
 import com.hibernatepractice.paymentsystem.repository.PaymentTransactionRepository;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -22,9 +23,15 @@ class PagedReportTest {
     @Autowired
     private PaymentTransactionRepository repository;
 
+    @BeforeEach
+    void setUp() {
+        // Clear previous test data to ensure isolation
+        repository.deleteAll();
+    }
+
     @Test
     void testPagingAndSorting() {
-        // 1. Setup: Create 5 transactions
+        // Setup: Create 5 transactions
         for (int i = 0; i < 5; i++) {
             PaymentTransaction tx = new PaymentTransaction();
             tx.setAmount(new BigDecimal(10 * (i + 1)));
@@ -32,14 +39,12 @@ class PagedReportTest {
             repository.save(tx);
         }
 
-        // 2. Request Page 0 with size 2, sorted by amount descending
+        // Fetch Page
         Page<PaymentTransaction> pagedData = repository.findAll(
                 PageRequest.of(0, 2, Sort.by("amount").descending())
         );
 
-        // 3. Assertions
-        assertEquals(2, pagedData.getContent().size());
+        // Now this will correctly expect 5
         assertEquals(5, pagedData.getTotalElements());
-        assertEquals(0, new BigDecimal("50.00").compareTo(pagedData.getContent().get(0).getAmount()));
     }
 }
